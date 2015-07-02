@@ -1,0 +1,64 @@
+
+public class RandomizedQueue<Item> {
+ 
+  private Item[] queue;
+  private int size;
+  
+  public RandomizedQueue() {
+    
+    queue = new (Item[]) new Object[1];
+    size = 0;
+    
+  }
+  
+  public boolean isEmpty() {
+    return size == 0;
+  }
+  
+  public int size() {
+   return size; 
+  }
+  
+  public void enqueue(Item item) {
+    queue[size++] = item;
+  }
+  
+  public Item dequeue() {
+    
+  }
+  
+  public Item sample() {
+    
+  }
+  
+  public Iterator<Item> iterator() {
+    return new RandomizedQueueIterator();
+  }
+  
+  private class RandomizedQueueIterator implements Iterator {
+    
+    private int i = size;
+    private boolean[size] visited;
+    
+    public boolean hasNext() {
+     return i > 0; 
+    }
+    
+    public void remove() {
+     throw new UnsupportedOperationException("Class does not support remove"); 
+    }
+    
+    public Item next() {
+     index = StdRandom.Uniform(0, i + 1);
+     
+     while (!visited[index]) index = StdRandom.Uniform(0, i + 1);
+     return queue[index];
+    }
+    
+  }
+  
+  public static void main(String[] args) {
+    
+  }
+  
+}

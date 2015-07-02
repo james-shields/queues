@@ -1,0 +1,131 @@
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+
+public class Deque<Item> implements Iterable<Item> {
+  
+  //private class
+  private class Node {
+   Item item;
+   Node next, previous;
+  }
+   
+  //values
+  private int count;
+  private Node head;
+  private Node tail;
+  
+  public Deque() {
+    
+    //initialize
+    count = 0;
+    head = new Node();
+    tail = new Node();
+      
+    //set head and tail references to each other
+    head.next = tail;
+    tail.previous = head;
+    
+  }
+  
+  public boolean isEmpty() {
+    
+    return count == 0;
+    
+  }
+  
+  public int size() {
+    return count;
+  }
+  
+  public void addFirst(Item item) {
+    
+    if (item == null) throw new NullPointerException("Null object cannot be added to deque");
+    
+    //new node 
+    Node n = new Node();
+    n.item = item;
+    n.next = head.next;
+    n.previous = head;
+    head.next = n;    
+    count++;   
+  }
+  
+  public void addLast(Item item) {
+    
+    if (item == null) throw new NullPointerException("Null object cannot be added to deque");
+    
+    //new node 
+    Node n = new Node();
+    n.item = item;
+    n.next = tail;
+    n.previous = tail.previous;
+    
+    tail.previous = n;    
+    count++;   
+  }
+  
+  public Item removeFirst() {
+    
+    if (isEmpty()) throw new NoSuchElementException("Deque is empty");
+    
+    Node currentFirst = head.next;
+    
+    Item item = currentFirst.item;
+    
+    //update links
+    currentFirst.next.previous = head;
+    head.next = currentFirst.next;    
+    
+    return item;
+    
+  }
+  
+  public Item removeLast() {
+    
+    
+    if (isEmpty()) throw new NoSuchElementException("Deque is empty");
+    
+    Node oldLast = tail.previous;
+    
+    Item item = oldLast.item;
+  
+    tail.previous = oldLast.previous;
+    oldLast.previous.next = tail;
+    
+    return item;
+  }
+    
+  
+  public Iterator<Item> iterator() {
+   return new DequeIterator(); 
+  }
+  
+  private class DequeIterator implements Iterator<Item> {
+    
+      private Node current = head;
+      
+      public boolean hasNext() {
+       return current.next != tail; 
+      }
+      
+      public void remove() {
+        throw new UnsupportedOperationException("remove() is not implemented");
+      }
+      
+      public Item next() {
+        
+        if (current == tail) throw new NoSuchElementException("No more items in deque");
+        
+       Item item = current.item;
+       current = current.next;
+       return item;
+      }
+      
+    }
+  
+    
+ }
+ 
+  
